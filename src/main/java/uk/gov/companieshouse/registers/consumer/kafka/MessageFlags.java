@@ -1,6 +1,6 @@
 package uk.gov.companieshouse.registers.consumer.kafka;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
 @Component
