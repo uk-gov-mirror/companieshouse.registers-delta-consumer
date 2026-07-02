@@ -1,20 +1,20 @@
 package uk.gov.companieshouse.registers.consumer.kafka;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.github.tomakehurst.wiremock.http.Request;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.matching.MatchResult;
 import com.github.tomakehurst.wiremock.matching.ValueMatcher;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 import uk.gov.companieshouse.api.registers.InternalRegisters;
 
 public class PutRequestMatcher implements ValueMatcher<Request> {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper()
-            .setSerializationInclusion(Include.NON_EMPTY)
-            .registerModule(new JavaTimeModule());
+    private static final JsonMapper MAPPER = JsonMapper.builder()
+            // No module registration needed; java.time support is native in Jackson 3!
+            .changeDefaultPropertyInclusion(inclusion -> inclusion.withValueInclusion(JsonInclude.Include.NON_NULL))
+            .build();
 
     private final String expectedUrl;
     private final String expectedBody;
@@ -52,7 +52,7 @@ public class PutRequestMatcher implements ValueMatcher<Request> {
                 System.out.printf("%nActual: [%s]", actual);
             }
             return result;
-        } catch (JsonProcessingException ex) {
+        } catch (JacksonException ex) {
             return MatchResult.of(false);
         }
     }

@@ -7,14 +7,14 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 import uk.gov.companieshouse.api.delta.RegisterDelta;
 import uk.gov.companieshouse.api.delta.RegistersDeleteDelta;
 import uk.gov.companieshouse.registers.consumer.exception.NonRetryableException;
@@ -27,14 +27,14 @@ class RegistersDeltaDeserialiserTest {
     @InjectMocks
     private RegistersDeltaDeserialiser deserialiser;
     @Mock
-    private ObjectMapper objectMapper;
+    private JsonMapper objectMapper;
     @Mock
     private RegisterDelta expectedDelta;
     @Mock
     private RegistersDeleteDelta expectedDeleteDelta;
 
     @Test
-    void shouldDeserialiseRegistersDelta() throws JsonProcessingException {
+    void shouldDeserialiseRegistersDelta() throws JacksonException {
         // given
         when(objectMapper.readValue(anyString(), eq(RegisterDelta.class))).thenReturn(expectedDelta);
 
@@ -47,10 +47,10 @@ class RegistersDeltaDeserialiserTest {
     }
 
     @Test
-    void shouldThrowNonRetryableExceptionWhenJsonProcessingExceptionThrown() throws JsonProcessingException {
+    void shouldThrowNonRetryableExceptionWhenJacksonExceptionThrown() throws JacksonException {
         // given
         when(objectMapper.readValue(anyString(), eq(RegisterDelta.class))).thenThrow(
-                JsonProcessingException.class);
+                JacksonException.class);
 
         // when
         Executable executable = () -> deserialiser.deserialiseRegistersDelta(REGISTERS_DELTA);
@@ -62,7 +62,7 @@ class RegistersDeltaDeserialiserTest {
     }
 
     @Test
-    void shouldDeserialiseRegistersDeleteDelta() throws JsonProcessingException {
+    void shouldDeserialiseRegistersDeleteDelta() throws JacksonException {
         // given
         when(objectMapper.readValue(anyString(), eq(RegistersDeleteDelta.class))).thenReturn(expectedDeleteDelta);
 
@@ -75,11 +75,11 @@ class RegistersDeltaDeserialiserTest {
     }
 
     @Test
-    void shouldThrowNonRetryableExceptionWhenJsonProcessingExceptionThrownFromDeleteDelta()
-            throws JsonProcessingException {
+    void shouldThrowNonRetryableExceptionWhenJacksonExceptionThrownFromDeleteDelta()
+            throws JacksonException {
         // given
         when(objectMapper.readValue(anyString(), eq(RegistersDeleteDelta.class))).thenThrow(
-                JsonProcessingException.class);
+                JacksonException.class);
 
         // when
         Executable executable = () -> deserialiser.deserialiseRegistersDeleteDelta(REGISTERS_DELETE_DELTA);

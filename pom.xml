@@ -35,6 +35,8 @@
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <!-- Source: https://mvnrepository.com/artifact/org.wiremock/wiremock -->
         <wiremock.version>3.13.2</wiremock.version>
+        <!-- Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-core -->
+        <jackson3.version>3.2.0</jackson3.version>
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
@@ -78,6 +80,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>tools.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson3.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
 
             <!-- Source: https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
             <!--the following transitive dependencies are added specifically to avoid vulnerabilities-->

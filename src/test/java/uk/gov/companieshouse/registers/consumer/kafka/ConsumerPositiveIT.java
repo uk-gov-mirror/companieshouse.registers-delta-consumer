@@ -11,7 +11,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -43,12 +42,12 @@ class ConsumerPositiveIT extends AbstractKafkaIT {
 
     @Autowired
     private KafkaConsumer<String, byte[]> testConsumer;
+
     @Autowired
     private KafkaProducer<String, byte[]> testProducer;
+
     @Autowired
     private TestConsumerAspect testConsumerAspect;
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @DynamicPropertySource
     static void props(DynamicPropertyRegistry registry) {
@@ -56,7 +55,7 @@ class ConsumerPositiveIT extends AbstractKafkaIT {
     }
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         testConsumerAspect.resetLatch();
         testConsumer.poll(Duration.ofMillis(1000));
     }
