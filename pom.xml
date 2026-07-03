@@ -39,11 +39,15 @@
         <jackson3.version>3.2.0</jackson3.version>
         <!-- Source: https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-instrumentation-bom -->
         <opentelemetry.version>2.29.0</opentelemetry.version>
+        <!-- Source: https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc17 -->
+        <oracle-driver.version>23.26.2.0.0</oracle-driver.version>
+        <!-- Source: https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
+        <tomcat.version>11.0.23</tomcat.version>
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
 
-        <!--companies house-->
+        <!--Companies House Internal Dependencies -->
         <!-- Source: https://github.com/companieshouse/structured-logging/releases -->
         <structured-logging.version>3.0.57</structured-logging.version>
         <!-- Source: https://github.com/companieshouse/sdk-manager-java/releases -->
@@ -97,6 +101,19 @@
                 <scope>compile</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-websocket</artifactId>
+                <version>${tomcat.version}</version>
+                <scope>compile</scope>
+            </dependency>
 
             <!-- Source: https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
             <!--the following transitive dependencies are added specifically to avoid vulnerabilities-->
@@ -330,11 +347,10 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Source: https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc17 -->
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc17</artifactId>
-            <version>23.26.2.0.0</version>
+            <version>${oracle-driver.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -345,18 +361,13 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
             <scope>test</scope>
         </dependency>
 
     </dependencies>
+
 
     <build>
         <plugins>

@@ -1,7 +1,6 @@
 package uk.gov.companieshouse.registers.consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
@@ -12,13 +11,10 @@ import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRe
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.companieshouse.registers.consumer.kafka.AbstractKafkaIT;
-
-import java.util.concurrent.TimeUnit;
 
 @AutoConfigureTestRestTemplate
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RegistersApplicationIT extends AbstractKafkaIT {
+class RegistersApplicationIT {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -31,17 +27,9 @@ class RegistersApplicationIT extends AbstractKafkaIT {
 
     @Test
     void shouldReturn200FromGetHealthEndpoint() {
+        ResponseEntity<String> response = testRestTemplate.getForEntity("/healthcheck", String.class);
 
-        await()
-                .atMost(5, TimeUnit.MINUTES)
-                .pollInterval(10, TimeUnit.SECONDS)
-                .untilAsserted(() -> {
-                    ResponseEntity<String> response = testRestTemplate.getForEntity("/healthcheck", String.class);
-
-                    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-                    assertThat(response.getBody()).contains("\"status\":\"UP\"");
-                });
-
-
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).contains("\"status\":\"UP\"");
     }
 }
