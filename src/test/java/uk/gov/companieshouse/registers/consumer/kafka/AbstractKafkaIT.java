@@ -12,7 +12,7 @@ import org.testcontainers.kafka.KafkaContainer;
 public abstract class AbstractKafkaIT {
 
     @Container
-    protected static final KafkaContainer kafka = new KafkaContainer("apache/kafka-native:latest");
+    protected static final KafkaContainer kafka = new KafkaContainer("apache/kafka-native:4.3.1");
 
     static {
         kafka.start();
