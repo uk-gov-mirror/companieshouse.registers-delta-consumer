@@ -5,7 +5,7 @@
     <parent>
         <groupId>uk.gov.companieshouse</groupId>
         <artifactId>companies-house-parent</artifactId>
-        <version>2.1.14</version>
+        <version>2.1.15</version>
         <relativePath/>
     </parent>
 
@@ -24,6 +24,8 @@
         <maven-surefire.version>3.5.6</maven-surefire.version>
         <maven-surefire-plugin.version>${maven-surefire.version}</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>${maven-surefire.version}</maven-failsafe-plugin.version>
+        <!-- Source: https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+        <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
 
         <!-- Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
         <spring-boot.version>4.1.0</spring-boot.version>
@@ -36,13 +38,13 @@
         <!-- Source: https://mvnrepository.com/artifact/org.wiremock/wiremock -->
         <wiremock.version>3.13.2</wiremock.version>
         <!-- Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-core -->
-        <jackson3.version>3.2.0</jackson3.version>
+        <jackson3.version>3.2.1</jackson3.version>
         <!-- Source: https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-instrumentation-bom -->
         <opentelemetry.version>2.29.0</opentelemetry.version>
         <!-- Source: https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc17 -->
         <oracle-driver.version>23.26.2.0.0</oracle-driver.version>
         <!-- Source: https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
-        <tomcat.version>11.0.23</tomcat.version>
+        <tomcat.version>11.0.24</tomcat.version>
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>false</skip.integration.tests>
@@ -51,19 +53,17 @@
         <!-- Source: https://github.com/companieshouse/structured-logging/releases -->
         <structured-logging.version>3.0.57</structured-logging.version>
         <!-- Source: https://github.com/companieshouse/sdk-manager-java/releases -->
-        <sdk-manager-java.version>3.0.15</sdk-manager-java.version>
+        <sdk-manager-java.version>4.0.0</sdk-manager-java.version>
         <!-- Source: https://github.com/companieshouse/private-api-sdk-java/releases -->
-        <private-api-sdk-java.version>7.0.4</private-api-sdk-java.version>
+        <private-api-sdk-java.version>7.2.3</private-api-sdk-java.version>
         <!-- Source: https://github.com/companieshouse/data-sync-api-sdk-java/releases -->
         <data-sync-api-sdk-java.version>1.0.16</data-sync-api-sdk-java.version>
         <!-- Source: https://github.com/companieshouse/kafka-models/releases -->
-        <kafka-models.version>3.0.35</kafka-models.version>
+        <kafka-models.version>3.0.36</kafka-models.version>
         <!-- Source: https://github.com/companieshouse/api-helper-java/releases -->
         <api-helper-java.version>3.0.4</api-helper-java.version>
 
         <!--sonar configuration-->
-        <!-- Source: https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
-        <sonar-maven-plugin.version>5.7.0.6970</sonar-maven-plugin.version>
         <sonar.java.binaries>${project.basedir}/target</sonar.java.binaries>
         <!--suppress UnresolvedMavenProperty -->
         <sonar.token>${CODE_ANALYSIS_TOKEN}</sonar.token>
@@ -98,6 +98,48 @@
                 <groupId>tools.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson3.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Source: https://mvnrepository.com/artifact/com.fasterxml.jackson/jackson-bom -->
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>2.22.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Source: https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-bom -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-bom</artifactId>
+                <version>2.26.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Source: https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.5.38</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Source: https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>1.5.38</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Source: https://mvnrepository.com/artifact/at.yawk.lz4/lz4-java -->
+            <dependency>
+                <groupId>at.yawk.lz4</groupId>
+                <artifactId>lz4-java</artifactId>
+                <version>1.11.1</version>
                 <scope>compile</scope>
             </dependency>
 
@@ -149,7 +191,6 @@
     </dependencyManagement>
 
     <dependencies>
-
 
         <!-- CVE-2025-48924(5.3) -->
         <dependency>
